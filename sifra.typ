@@ -82,54 +82,6 @@
 }
 
 
-// #angled-block("left", true){{{
-// #angled-block("top", false)
-// #angled-block("right", false)
-// #angled-block("bottom", true)
-// #angled-block("right", true)
-// #angled-block("top", false)
-//
-// #angled-block("right", true)
-// #angled-block("bottom", false)
-// #angled-block("left", true)
-// #angled-block("bottom", false)
-//
-// #grid-block("top", "left", true)
-// #grid-block("top", "middle", true)
-// #grid-block("top", "right", true)
-// #grid-block("middle", "left", true)
-// #grid-block("middle", "middle", false)
-// #grid-block("middle", "right", false)
-// #grid-block("bottom", "left", true)
-// #angled-block("top", false)
-// #angled-block("right", false)
-// #angled-block("bottom", true)
-// #grid-block("bottom", "middle", false)
-// #grid-block("bottom", "right", false)
-// #grid-block("top", "left", true)
-// #grid-block("top", "middle", true)
-// #grid-block("top", "right", true)
-// #grid-block("middle", "left", true)
-// #grid-block("middle", "middle", false)
-// #grid-block("middle", "right", false)
-// #grid-block("bottom", "left", true)
-// #grid-block("bottom", "middle", false)
-// #angled-block("right", false)
-// #angled-block("top", false)
-// #angled-block("right", false)
-// #angled-block("bottom", true)
-// #grid-block("bottom", "right", false)
-// #grid-block("top", "left", true)
-// #grid-block("top", "middle", true)
-// #grid-block("top", "right", true)
-// #grid-block("middle", "left", true)
-// #grid-block("middle", "middle", false)
-// #grid-block("middle", "right", false)
-// #grid-block("bottom", "left", true)
-// #grid-block("bottom", "middle", false)
-// #grid-block("bottom", "right", false)}}}
-
-
 #let cipher-lookup = (
   "a": (c: "a", elem: () => grid-block("top", "left", false), type: "grid"),
   "b": (c: "b", elem: () => grid-block("top", "middle", false), type: "grid"),
