@@ -76,9 +76,12 @@
 ")))// }}}
 
 
+// #let body-grid = grid(
+//   columns: 1,
+//   [#wrap-content( sender-img, [#par(justify: true, lorem(500))], align: top + right, column-gutter: 1em)]
+// )
+//
 #let text-intro = par[
-  Dane, vidím, že směr dalšího postupu není na první pohled jasný. Je opravdu důležité, aby jsi splnil výzvu, která před tebou stojí. Celé lidstvo na tebe spoléhá.
-  Taky jsem zaslechl, že máš mít svatbu. Neúspěch dnes by ji mohl překazit, a to nechceš! Neběduj, vše není ztraceno. V přiložené schránce posílám instrukce pro další postup. Pro bezpečnost je klíč ke schránce zakódovaný, určitě jej ale zvládneš rozluštit. Hodně zdaru!
 ]
 
 #let input-alph-lookup = (
@@ -142,42 +145,15 @@
 }
 
 #let text-main = par[
-  #v(3em)
-  _Příloha \#1:_
+  #set text(size: 0.7em)
 
-  // S0 A/1 S1 \
-  // S0 B/0 S1 \
-  // ... \
-  // ... \
-  // ... \
-  // S0 C/0 S2 \
-  // S1 A/1 S0 \
-  //
-  #let cols = ()
-  #for tr in a-transitions {
-    cols.push(render-transition(tr))
-  }
-  
-  #box[
-    #place(top + left, dx: 0.8em, dy: 0.45em, text(fill: gray, sym.arrow.long))
-    #place(bottom + left, dx: 0.8em, dy: -0.45em, text(fill: gray, sym.arrow.l.long))
-    #grid(
-      columns: 3,
-      inset: 0.5em,
-      ..cols
-    )
-  ]
 
-  #grid(
-    columns: 1,
-    inset: 0.5em,
-    a-input-text("hDACDDDAh"),
-    a-input-text("NhANChDACAVNVDAhIChDACDDDAhIChDACDAh"),
-    a-input-text("NhANCAhChDACDAhChDACDDDDDAhII"),
-    a-input-text("NhACADhDACDhIChICIDhDACDDDAhIChDACDAhI")
-  )
+  #image("./images/trains-solution/train-1.png", width: 200pt)
+  #image("./images/trains-misc/1-7-solved.png", width: 200pt)
+  #image("./images/trains-misc/3-7-solved.png", width: 200pt)
+  #image("./images/trains-misc/4-4-solved.png", width: 200pt)
 
-  #v(17em)
+
 
 ]
 
@@ -186,11 +162,12 @@
   grid.cell(grid(
     columns: (1fr, 1fr),
     grid.cell(inset: 0.5em, text-intro),
-    grid.cell(
-      stroke: 1pt + black,
-      inset: 0.7em,
-      align(center + horizon, sender-img)
-    )
+    []
+    // grid.cell(
+    //   stroke: 1pt + black,
+    //   inset: 0.7em,
+    //   align(center + horizon, sender-img)
+    // )
  
   )),
   grid.cell(inset: 0.5em, text-main)
@@ -205,7 +182,7 @@
   align(horizon, text(weight: "bold", size: 1.2em, [Přepis přijaté zprávy])),
   [#wave-ascii],
   [*Zdroj:* 49.0364842N, 16.1206428E],
-  [*Odesílatel:* George H. Mealy],
+  [*Odesílatel:* Trains],
   table.cell(colspan: 2, inset: 0pt, [#body-grid]),
   table.cell(colspan: 2, inset: 0pt, table(
     columns: (1fr, 2fr, 1fr),

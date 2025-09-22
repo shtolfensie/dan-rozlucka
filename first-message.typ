@@ -64,11 +64,6 @@
 ")))// }}}
 
 
-// #let body-grid = grid(
-//   columns: 1,
-//   [#wrap-content( sender-img, [#par(justify: true, lorem(500))], align: top + right, column-gutter: 1em)]
-// )
-//
 #let text-intro = par[
   > zpráva neznámého formátu \
   _[POKUS DEKODOVANI ZPRAVY]_
@@ -100,7 +95,9 @@
   #sifra.grid-cipher("Tekutina umoznuje komunikaci. Pij alespon po hodine.", solution: show-solution) \
   #sifra.grid-cipher("Pokud selzes, obsadime Zemi, zotrocime lidstvo… a zrusime ti svatbu. A to nechces.", solution: show-solution) \
   #sifra.grid-cipher("Hodne stesti, budeme te ocekavat. trisolane", solution: show-solution) \
-  #sifra.grid-cipher("mapy.com/", solution: show-solution) \
+  #box[
+  #sifra.grid-cipher("mapy.com", solution: show-solution) #place(horizon, dx: 161pt)[#text(size: 1em, sifra.angled-block("top", false, compact: true)) ] #place(horizon, dx: 177pt)[#text(size: 1.4em, "/") ] #place(horizon, dx: 150pt)[#text(size: 1.4em, "/") ]
+  ]
 
 ]
 

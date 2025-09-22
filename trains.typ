@@ -10,14 +10,6 @@
 )
 
 
-// #let wave-ascii = block(par(leading: 0.5em, text(size: 4pt,
-//   "a
-//       ⡇⡀  ⡀⡀         ⣾⣀⣄⢀⣀⣀⢠⡀⡀⢀⢀⣠ ⡄⢠ ⡀   ⢀⣧⣿⡆       ⢀⡀        
-// ⣦⣠⣤⣄⣠⣧⣷⣦⣄⣿⣧⣿⣦⣷⣤⣾⣤⣤⣧⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣾⣿⣷⣆⣤⣴⣾⣿⣿⣷⣿⣷⣿⣿⣷⣿⣼⣿⣷⣤⣷⣿⣿⣿⣾⣶⣶
-// ⠟⠙⠛⠋⠙⡟⡿⠟⠋⣿⡟⣿⠟⡿⠛⢿⠛⠛⡟⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⢿⣿⡿⠏⠛⠻⢿⣿⣿⡿⣿⡿⣿⣿⡿⣿⢻⣿⡿⠛⡿⣿⣿⣿⢿⠿⠿
-//       ⡇⠁  ⠁⠁         ⢿⠉⠋⠈⠉⠉⠘⠁⠁⠈⠈⠙ ⠃⠘ ⠁   ⠈⡟⣿⠇       ⠈⠁        
-//   "
-// )))
 #let wave-ascii = image("images/audio.svg", height: 2.5em)
 
 #let sender-img = block(stroke: none,// {{{
@@ -76,26 +68,196 @@ X$$;:+xX$&+;;++;+++++xx+xX$&&&$+;+X&&&XX$&&x+X&&&x::::;+x+::;$&$x++X&&&&&&&&;$&&
 // )
 //
 #let text-intro = par[
-  TODO. Kvůli velkému náporu na naše tratě, je potřeba některé vlaky odklinit, aby se ty nejdůležitější dostaly do svého cíle.
-  Pro správný chod sítě také potřebujeme zajistit, aby všechny úseky tratě splňovaly požadavky pro důležité soupravy, jež po nich budou jezdit. V příloze jsou
-  nedokončené úseky, které je třeba navrhnout. Jakmile budou tratě rozvrženy, je možné spustit provoz na plno. #v(1em) _Příloha #1:_
+
+
+  Dane, doufám, že se k tobě zpráva dostane, je to naléhavé.
+  Abychom si opravdu byli jisti, že když uspějěš, tak bude Země (a slyšel jsem,  že je ve hře i nějaká svatba?) opravdu zachráněna,
+  je potřeba udržovat naši železnici v perfektním stavu. Neptej se, je to složité. Máme pár úseků, které nesplňují požadavky vlaků, co tam mají jezdit.
+  Každý vlak potřebuje projet správnými stanicemi, ve správném pořadí. Naši strojvedoucí často zapomenou, že mají vlak řídit, a tak je potřeba stavět koleje co nejjednodušší.
+  Posílám ti instrukce, jaké konfigurace výhybek zvládnou. Dej vědět, jak budeš mít úseky navrženy.
+
 ]
 
-// #let train
+#let color-lookup = (
+  "red": red,
+  "green": green
+)
+
+#let train(accept: true, stations) = {
+
+  let n = stations.len()
+
+  let blocks = ()
+    for s in stations {
+      blocks.push(align(horizon, box(width: 8pt, height: 8pt, fill: color-lookup.at(s))))
+    }
+
+  grid(
+    gutter: 1pt,
+    columns: n+1,
+    if accept { 
+    image("./images/trains/train-icon-green.svg", width: 15pt)
+  } else { 
+    image("./images/trains/train-icon-red.svg", width: 15pt)
+  },
+    ..blocks
+  )
+  
+}
+
+#let top1 = [⠘⠁⠈⠈⠙]
+#let top2 = [⠁  ⠁⠁]
+#let bot1 = [⣦⣠⣤⣄]
+#let bot2 = [⣀⣄⢀⣀]
+#let top-deco = (top1, top2)
+#let bot-deco = (bot1, bot2)
+
+
+#let map-cell(start: false, end: false, deco: 0, station: none) = {
+  let square-dim = 30pt
+  box(width: square-dim, height: square-dim)[
+    #place(dy: 2.1pt, dx: if deco == 0 {-3pt} else {2pt})[#text(size: 0.8em, fill: gray)[#top-deco.at(deco)]]
+    #place(bottom, dy: -3.5pt, dx: -0.4pt)[#text(size: 0.8em, fill: gray)[#bot-deco.at(deco)]]
+    #if start {
+      place(left+horizon, dx: 0.42pt, box(image("./images/trains/track-start.svg", width: square-dim + 5pt)))
+    }
+    #if end {
+      place(left+horizon, dx: -0.42pt, rotate(180deg, image("./images/trains/track-start.svg", width: square-dim + 5pt)))
+    }
+    #if station != none {
+      place(box(stroke: (paint: station, dash: (array: (20pt, 10pt), phase: 10pt), thickness: 2pt), width: 100%, height: 100%))
+
+    }
+  ]
+}
+
+#let train-ex-1 = {
+  grid(
+    columns: (auto, auto),
+    [
+    #stack(spacing: 0pt ,train(("red", "green")) ,train(("green", "red")) ,train(("green",)) ,train(("red",)))
+  ],
+    box(width: 100%,
+      align(right,
+    table(
+      inset: 0pt,
+      // columns: (1fr, 1fr,1fr,1fr,1fr,1fr),
+      columns: 6,
+      map-cell(deco: 1), map-cell(), map-cell(), map-cell(), map-cell(), map-cell(), 
+      map-cell(), map-cell(), map-cell(deco: 1), map-cell(deco: 1, station: red), map-cell(), map-cell(), 
+      map-cell(start: true), map-cell(), map-cell(), map-cell(), map-cell(), map-cell(end: true), 
+      map-cell(), map-cell(deco: 1), map-cell(station: green), map-cell(deco: 1), map-cell(deco: 1), map-cell(), 
+      map-cell(), map-cell(), map-cell(deco: 1), map-cell(), map-cell(), map-cell(deco: 1), 
+    )))
+
+  )
+}
+
+#let train-ex-2 = {
+  grid(
+    columns: (auto, auto),
+    [
+    #stack(spacing: 0pt ,train(("red", "red", "green")) ,train(("green", "red", "red")))
+],
+    box(width: 100%,
+      align(right,
+    table(
+      inset: 0pt,
+      // columns: (1fr, 1fr,1fr,1fr,1fr,1fr),
+      columns: 6,
+      map-cell(deco: 1), map-cell(), map-cell(), map-cell(), map-cell(), map-cell(), 
+      map-cell(), map-cell(station: red), map-cell(deco: 1), map-cell(deco: 1), map-cell(), map-cell(), 
+      map-cell(start: true), map-cell(), map-cell(), map-cell(station: green), map-cell(), map-cell(end: true), 
+      map-cell(), map-cell(deco: 1, station: red), map-cell(), map-cell(deco: 1), map-cell(deco: 1), map-cell(), 
+      map-cell(), map-cell(), map-cell(deco: 1), map-cell(), map-cell(), map-cell(deco: 1), 
+    )))
+
+  )
+}
+
+#let train-ex-3 = {
+  grid(
+    columns: (auto, auto),
+    [
+    #stack(spacing: 0pt ,train(("green", "red", "red", "green")) ,train(("green", "red", "red", "green", "red", "red", "green")), train(("green", "red", "red", "green", "green"), accept: false))
+],
+    box(width: 100%,
+      align(right,
+    table(
+      inset: 0pt,
+      // columns: (1fr, 1fr,1fr,1fr,1fr,1fr),
+      columns: 6,
+      map-cell(deco: 1), map-cell(deco: 1, station: green), map-cell(), map-cell(), map-cell(station: red, deco: 1), map-cell(), 
+      map-cell(), map-cell(), map-cell(deco: 1), map-cell(deco: 0), map-cell(), map-cell(deco: 1), 
+      map-cell(start: true), map-cell(), map-cell(), map-cell(), map-cell(), map-cell(end: true), 
+      map-cell(), map-cell(deco: 1, station: red), map-cell(), map-cell(deco: 1), map-cell(deco: 0, station: green), map-cell(), 
+      map-cell(), map-cell(), map-cell(deco: 1), map-cell(), map-cell(), map-cell(deco: 1), 
+    )))
+
+  )
+}
+
+#let train-ex-4 = {
+  grid(
+    columns: (auto, auto),
+    [
+    #stack(spacing: 0pt ,train(accept: false, ("green",)) ,train(("green", "green")), train(accept: false, ("green", "green", "green")), train(accept: true, ("green", "green", "green", "green")),)
+],
+    box(width: 100%,
+      align(right,
+    table(
+      inset: 0pt,
+      // columns: (1fr, 1fr,1fr,1fr,1fr,1fr),
+      columns: 6,
+      map-cell(deco: 1), map-cell(), map-cell(), map-cell(), map-cell(), map-cell(), 
+      map-cell(), map-cell(), map-cell(deco: 0), map-cell(deco: 0), map-cell(), map-cell(deco: 1), 
+      map-cell(start: true), map-cell(deco: 1), map-cell(), map-cell(), map-cell(), map-cell(end: true), 
+      map-cell(), map-cell(), map-cell(), map-cell(deco: 1), map-cell(), map-cell(), 
+      map-cell(), map-cell(), map-cell(deco: 1), map-cell(), map-cell(deco: 1, station: green), map-cell(deco: 0), 
+    )))
+
+  )
+}
+
+
+#let example-size = 30pt
 
 #let text-main = table(
   columns: (1fr, 1fr),
-  table.cell(colspan: 2, [Možné nastavení kolejí: #box(rotate(90deg, reflow: true, image("images/trains/possible-rails.jpeg", width: 4em)))]),
-  [#align(top, [\#1]) #box(rotate(-90deg, reflow: true, image("images/trains/trat-1.jpeg", width: 9em)))],
-  [],
-  [],
-  [],
-  table.cell(colspan: 2, ["main solution part"
-  - list of trains which have to go through all four parts in order
-  - some of them can go through, others cant
-  - the ones which can go through form the solution
-  - each train has a letter/number associated to it. the solution is the sequence of characters of the accepted trains.
-  ])
+  table.cell(colspan: 2, [
+    #grid(
+      columns: 2,
+      gutter: 10pt,
+      [
+
+    Možné nastavení kolejí:   #h(5.8em)      (+ vertikálně) #grid(
+    columns: 10,
+    gutter: 5pt,
+    box(stroke: black, inset: 1pt, image("./images/trains/track-straight.svg", height: example-size)),
+    box(stroke: black, inset: 1pt, rotate(90deg, image("./images/trains/track-straight.svg", height: example-size))),
+    box(stroke: black, inset: 1pt, rotate(0deg, image("./images/trains/track-bend.svg", height: example-size))),
+    box(stroke: black, inset: 1pt, rotate(90deg, image("./images/trains/track-bend.svg", height: example-size))),
+    box(stroke: black, inset: 1pt, rotate(180deg, image("./images/trains/track-bend.svg", height: example-size))),
+    box(stroke: black, inset: 1pt, rotate(270deg, image("./images/trains/track-bend.svg", height: example-size))),
+    box(stroke: black, inset: 1pt)[#rotate(0deg, image("./images/trains/track-bend.svg", height: example-size)) #place(top, image("./images/trains/track-straight.svg", height: example-size))],
+    box(stroke: black, inset: 1pt)[#rotate(90deg, image("./images/trains/track-bend.svg", height: example-size)) #place(top, image("./images/trains/track-straight.svg", height: example-size))],
+    box(stroke: black, inset: 1pt)[#rotate(180deg, image("./images/trains/track-bend.svg", height: example-size)) #place(top, image("./images/trains/track-straight.svg", height: example-size))],
+    box(stroke: black, inset: 1pt)[#rotate(270deg, image("./images/trains/track-bend.svg", height: example-size)) #place(top, image("./images/trains/track-straight.svg", height: example-size))],
+  )],
+    [*Zakázané nastavení*: #grid(
+    columns: 3,
+    gutter: 5pt,
+    box(stroke: black, inset: 1pt)[#rotate(270deg, image("./images/trains/track-bend.svg", height: example-size)) #place(top, image("./images/trains/track-straight.svg", height: example-size)) #place(top, image("./images/trains/track-bend.svg", height: example-size))],
+    box(stroke: black, inset: 1pt)[#rotate(90deg, image("./images/trains/track-bend.svg", height: example-size)) #place(top, image("./images/trains/track-bend.svg", height: example-size))],
+  )
+    ]
+    )
+    ],
+    ),
+  train-ex-1,
+  train-ex-2,
+  train-ex-3,
+  train-ex-4
 )
 
 #let body-grid = grid(
@@ -121,7 +283,7 @@ X$$;:+xX$&+;;++;+++++xx+xX$&&&$+;+X&&&XX$&&x+X&&&x::::;+x+::;$&$x++X&&&&&&&&;$&&
 
   align(horizon, text(weight: "bold", size: 1.2em, [Přepis přijaté zprávy])),
   [#wave-ascii],
-  [*Zdroj:* ],
+  [*Zdroj:* 49.841664N, 14.652588E],
   [*Odesílatel:* Ťopka, Přednosta stanice],
   table.cell(colspan: 2, inset: 0pt, [#body-grid]),
   table.cell(colspan: 2, inset: 0pt, table(

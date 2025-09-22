@@ -90,15 +90,15 @@ Vědci definovali krok této simulační funkce
   (kde $mono(p)$ jsou pozice planet, $mono(v)$ jejich rychlosti, $mono(m)$ jejich váhy, $mono("dt")$ granularita simulace a $mono(G)$ gravitační konstanta) pomocí následujících vztahů:
 
   $ mono(S = {1, 2, 3} ) $
-  $ mono(forall i in S : p_i_1 = p_i_0 + (v_i_1 dot m_i + "dt")/m_i) $
+  $ mono(forall i in S : p_i_1 = p_i_0 + (v_i_1 dot m_i dot "dt")/m_i) $
   $ mono(forall i\, j\, k in S\; i eq.not j eq.not k : v_i_1 = (v_i_0 dot m_i + (F_"ij" + F_"ki") dot "dt")/m_i) $
-  $ mono(forall i\, j in S : F_"ij" = (-G dot m_i dot hat(r)_"ij")/(||r_"ij"||^2)) $
-  $ mono(forall i\, j in S : r_"ij" = p_j_0 + p_i_0) $
+  $ mono(forall i\, j in S : F_"ij" = (-G dot m_i dot m_j dot hat(r)_"ij")/(||r_"ij"||^2)) $
+  $ mono(forall i\, j in S : r_"ij" = p_j_0 - p_i_0) $
   $ mono(||u|| = sqrt(u_0^2 + u_1^2 + u_2^2)) $
   $ mono(hat(u) = u/(||u||)) $
 
 
-Před Tebou se nachází mainframe. Zapni jej a naimplementuj $mono("Fn"(. . .))$. V případě neúspěchu nebudeme mít na výběr, než obsadit Zemi, zotročit lidstvo a překazit Ti svatbu. A to nechceš. Věříme však ve Tvůj úspěch, muž který si poradil se všemi překážkami si jistě poradí i nyní.
+Před Tebou se nachází mainframe. Zapni jej a naimplementuj $mono("Fn"(. . .))$. V případě neúspěchu nebudeme mít na výběr, než obsadit Zemi, zotročit lidstvo a překazit Ti svatbu. A to nechceš. Věříme však ve Tvůj úspěch. Muž, který si poradil se všemi překážkami, si jistě poradí i nyní.
 
 Mnoho zdaru,
 Trisolané
